@@ -29,7 +29,8 @@ Phase 0 establishes the base repository structure and Docker Compose environment
 
 ## Quick Start (Local Development with Docker Compose)
 
-1. **Copy environment configuration:**
+1. **Create environment configuration file:**
+   Before running `docker compose up`, you **must** create a `.env` file from `.env.example` so that required environment variables (such as `POSTGRES_PASSWORD`) are set:
    ```bash
    cp .env.example .env
    ```
