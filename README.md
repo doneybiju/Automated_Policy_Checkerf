@@ -27,6 +27,34 @@ Phase 0 establishes the base repository structure and Docker Compose environment
 
 ---
 
+## Phase 1 Summary (Database Models & Migrations)
+
+Phase 1 implements the core database layer:
+- SQLAlchemy ORM models for all 6 core tables:
+  - `users`
+  - `allowed_targets`
+  - `policies`
+  - `checks`
+  - `scans`
+  - `scan_results`
+- Alembic database migration environment (`backend/alembic/`).
+- Dev seed script (`backend/scripts/seed_dev_data.py`) for local testing.
+
+### Running Migrations and Seeding Data
+
+1. **Apply Alembic Migrations:**
+   ```bash
+   cd backend
+   alembic upgrade head
+   ```
+
+2. **Seed Local Development Database:**
+   ```bash
+   python backend/scripts/seed_dev_data.py
+   ```
+
+---
+
 ## Quick Start (Local Development with Docker Compose)
 
 1. **Create environment configuration file:**
