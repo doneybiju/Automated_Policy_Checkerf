@@ -40,25 +40,22 @@ Phase 1 implements the core database layer:
 - Alembic database migration environment (`backend/alembic/`).
 - Dev seed script (`backend/scripts/seed_dev_data.py`) for local testing.
 
-### Running Migrations and Seeding Data
+---
 
-1. **Apply Alembic Migrations:**
-   ```bash
-   cd backend
-   alembic upgrade head
-   ```
+## Phase 2 Summary (Auth & Target Allow-Listing)
 
-2. **Seed Local Development Database:**
-   ```bash
-   python backend/scripts/seed_dev_data.py
-   ```
+Phase 2 introduces user authentication and target host allow-listing:
+- `POST /auth/login`: Authenticates user credentials and issues short-lived JWT access tokens using bcrypt password hashing.
+- `GET /targets`: Lists allow-listed target hosts (accessible to any authenticated user).
+- `POST /targets`: Adds new target hosts to the allow-list (restricted to admin users).
+- Strict environment security: Requires `JWT_SECRET_KEY` and `POSTGRES_PASSWORD` to be explicitly set in `.env` (no hardcoded fallbacks).
 
 ---
 
 ## Quick Start (Local Development with Docker Compose)
 
 1. **Create environment configuration file:**
-   Before running `docker compose up`, you **must** create a `.env` file from `.env.example` so that required environment variables (such as `POSTGRES_PASSWORD`) are set:
+   Before running `docker compose up`, you **must** create a `.env` file from `.env.example` so that required environment variables (such as `POSTGRES_PASSWORD` and `JWT_SECRET_KEY`) are set:
    ```bash
    cp .env.example .env
    ```

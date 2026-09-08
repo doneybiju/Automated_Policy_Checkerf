@@ -42,6 +42,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-security_checker}
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?JWT_SECRET_KEY must be set in .env}
     depends_on:
       postgres:
         condition: service_healthy
