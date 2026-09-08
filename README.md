@@ -27,9 +27,35 @@ Phase 0 establishes the base repository structure and Docker Compose environment
 
 ---
 
+## Phase 1 Summary (Database Models & Migrations)
+
+Phase 1 implements the core database layer:
+- SQLAlchemy ORM models for all 6 core tables:
+  - `users`
+  - `allowed_targets`
+  - `policies`
+  - `checks`
+  - `scans`
+  - `scan_results`
+- Alembic database migration environment (`backend/alembic/`).
+- Dev seed script (`backend/scripts/seed_dev_data.py`) for local testing.
+
+---
+
+## Phase 2 Summary (Auth & Target Allow-Listing)
+
+Phase 2 introduces user authentication and target host allow-listing:
+- `POST /auth/login`: Authenticates user credentials and issues short-lived JWT access tokens using bcrypt password hashing.
+- `GET /targets`: Lists allow-listed target hosts (accessible to any authenticated user).
+- `POST /targets`: Adds new target hosts to the allow-list (restricted to admin users).
+- Strict environment security: Requires `JWT_SECRET_KEY` and `POSTGRES_PASSWORD` to be explicitly set in `.env` (no hardcoded fallbacks).
+
+---
+
 ## Quick Start (Local Development with Docker Compose)
 
-1. **Copy environment configuration:**
+1. **Create environment configuration file:**
+   Before running `docker compose up`, you **must** create a `.env` file from `.env.example` so that required environment variables (such as `POSTGRES_PASSWORD` and `JWT_SECRET_KEY`) are set:
    ```bash
    cp .env.example .env
    ```
