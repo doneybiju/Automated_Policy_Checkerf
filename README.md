@@ -27,6 +27,21 @@ Phase 0 establishes the base repository structure and Docker Compose environment
 
 ---
 
+## Phase 2 Summary (Auth & Target Allow-Listing)
+
+Phase 2 implements authentication, JWT issuance, and target allow-listing control:
+- SQLAlchemy database models for `users`, `allowed_targets`, `policies`, `checks`, `scans`, and `scan_results`.
+- Alembic database schema migrations and dev data seed script (`backend/scripts/seed_dev_data.py`).
+- Bcrypt password hashing and JWT access token issuance/validation in `backend/auth.py`.
+- Mandatory `JWT_SECRET_KEY` and `POSTGRES_PASSWORD` environment variables with fail-fast startup checks.
+- API Endpoints:
+  - `POST /auth/login`: Issue JWT token upon valid user authentication.
+  - `GET /targets`: List allow-listed targets (accessible by any authenticated user).
+  - `POST /targets`: Add a target host to allow-list (restricted to `admin` role).
+- Unit tests in `backend/tests/test_auth.py` and `backend/tests/test_models.py` verifying JWT authentication, role enforcement (403 for non-admin target creation, 401 for unauthenticated access), and database models.
+
+---
+
 ## Quick Start (Local Development with Docker Compose)
 
 1. **Copy environment configuration:**
