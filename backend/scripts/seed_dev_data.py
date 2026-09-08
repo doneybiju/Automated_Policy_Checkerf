@@ -9,14 +9,25 @@ from database import SessionLocal
 from models import AllowedTarget, Check, Policy, Scan, ScanResult, User
 
 
-def seed_data() -> None:
+from typing import Optional
+from sqlalchemy.orm import Session
+
+
+def seed_data(db: Optional[Session] = None) -> None:
     """Populate the database with realistic dev-only initial test data.
 
     Clears existing records in reverse dependency order and inserts
     sample entries for users, allowed targets, policies, checks, scans,
     and scan results.
+
+    Args:
+        db: Optional existing SQLAlchemy session (useful for testing with SQLite).
     """
-    db = SessionLocal()
+    should_close = False
+    if db is None:
+        db = SessionLocal()
+        should_close = True
+
     try:
         # Clear existing data for clean seed execution
         db.query(ScanResult).delete()
@@ -128,7 +139,8 @@ def seed_data() -> None:
         print(f"Error seeding database: {e}")
         raise e
     finally:
-        db.close()
+        if should_close:
+            db.close()
 
 
 if __name__ == "__main__":
