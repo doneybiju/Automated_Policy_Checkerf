@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Set environment variables for testing
 os.environ.setdefault("POSTGRES_PASSWORD", "change_me_password")
-os.environ.setdefault("JWT_SECRET_KEY", "test_jwt_secret_key_1234567890")
+os.environ.setdefault("JWT_SECRET_KEY", "test_jwt_secret_key_1234567890_at_least_32_bytes")
 
 from auth import hash_password
 from database import Base, get_db

@@ -110,25 +110,20 @@ def test_scan_and_scan_results(db_session):
     assert scan_result.check.check_type == "port_exposure"
 
 
-def test_seed_dev_data_script():
-    """Test executing the seed_dev_data function against PostgreSQL."""
-    seed_data()
-    from database import SessionLocal
+def test_seed_dev_data_script(db_session):
+    """Test executing the seed_dev_data function against database session."""
+    seed_data(db=db_session)
 
-    session = SessionLocal()
-    try:
-        users_count = session.query(User).count()
-        targets_count = session.query(AllowedTarget).count()
-        policies_count = session.query(Policy).count()
-        checks_count = session.query(Check).count()
-        scans_count = session.query(Scan).count()
-        results_count = session.query(ScanResult).count()
+    users_count = db_session.query(User).count()
+    targets_count = db_session.query(AllowedTarget).count()
+    policies_count = db_session.query(Policy).count()
+    checks_count = db_session.query(Check).count()
+    scans_count = db_session.query(Scan).count()
+    results_count = db_session.query(ScanResult).count()
 
-        assert users_count == 2
-        assert targets_count == 2
-        assert policies_count == 2
-        assert checks_count == 2
-        assert scans_count == 1
-        assert results_count == 2
-    finally:
-        session.close()
+    assert users_count == 2
+    assert targets_count == 2
+    assert policies_count == 2
+    assert checks_count == 2
+    assert scans_count == 1
+    assert results_count == 2
